@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Bellefair&display=swap');
+
+//VARIABLES
+$primary-dark: #0B0D17;
+$primary-gray: #D0D6F9;
+$font-bellefair: 'Bellefair', serif;
+$font-barlow: 'Barlow Condensed', sans-serif;
+$white: #ffffff;
+
+$heading-1-size: 150px;
+$heading-2-size: 100px;
+$heading-3-size: 58px;
+$heading-4-size: 32px;
+$heading-5-size: 28px;
+
+//MIXINS
+@mixin flex ($justify, $align, $gap) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    gap: $gap;
+
+    @media screen and (max-width: 800px) {
+        @if ($justify == 'space-around' or $justify == 'center') {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+@mixin heading($font-size, $font-family, $font-weight) {
+    font-size: $font-size;
+    font-family: $font-family;
+    font-weight: $font-weight;
+}
+
+@mixin link-hover( $color, $border-width) {
+    transition: all ease-in .3s;
+    border-bottom: $border-width solid $color;
+}
+
+@mixin glass{
+    background: rgba(208, 214, 249, 0.31);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.1px);
+    -webkit-backdrop-filter: blur(5.1px);
+    border: 1px solid rgba(208, 214, 249, 0.16);
+}
+
+// UTILITIES.
+
+h1{
+    @include heading(9.4rem, $font-bellefair, 400);
+    color: $white;
+
+    @media screen and (max-width:768px) {
+        font-size: 80px;
+    }
+}
+
+h4{
+    @include heading(2rem, $font-bellefair, 400);
+}
+
+h5{
+    @include heading(1.75rem, $font-barlow, 400);
+    color: $primary-gray;
+}
+
+p{
+    font-family: $font-barlow;
+    font-size: 1.125rem;
+    line-height: 2rem;
+}
+
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+button{
+    cursor: pointer;
+    border: 0;
+}
+
+// ----------------------------------------- //
+
+.container{
+    background-image: url("./Components//background-image.jpg");
+    min-height: 100vh;
+    width: min(100vw, 100%);
+    color: $primary-gray;
+}
+
+.navbar{
+    @include flex(space-between, center, auto);
+    padding: 1.9rem 0 1.4rem 1.4rem;
+
+    .logo{
+        background-color: $white;
+        height: 48px;
+        width: 48px;
+        border-radius: 50%;
+    }
+
+    .line{
+        width: clamp(200px, 56%, 240px);
+        margin: -.6rem -6rem 0 0;
+        z-index: 12;
+        @media screen and (max-width: 800px) {
+            display: none;
+        }
+    }
+
+    .open{
+        background: transparent;
+        @include flex(center, center, .2rem);
+        flex-direction: column;
+        position: absolute;
+        right: 1.5rem;
+        top: 3rem;
+        z-index: 30;
+
+        @media screen and (min-width: 550px) {
+            display: none;
+        }
+
+        .hamburger-menu{
+            cursor: pointer;
+        }
+
+        input[type=checkbox]{
+            cursor: pointer;
+            display: none;
+        }
+
+        .bars{
+            display: flex;
+            flex-direction: column;
+            gap: .3rem;
+
+            &__icon-bar{
+                width: 22px;
+                height: 2px;
+                background-color: $primary-gray;
+                transition: all ease-in 0.3s;
+            }
+
+            .top{
+                transform: rotate(0);
+            }
+
+            .middle{
+                opacity: 1;
+            }
+
+            .bottom{
+                transform: rotate(0);
+            }
+        }
+
+        input[type=checkbox]:checked{
+            + label{
+                .top{
+                    transform: rotate(45deg);
+                    transform-origin: 10% 140%;
+                }
+
+                .middle{
+                    opacity: 0;
+                }
+
+                .bottom{
+                    transform: rotate(-45deg);
+                    transform-origin: 10% 0%;
+                    transition: all ease-in 0.3s;
+                }
+            }
+        }
+    }
+
+    .nav{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 3rem;
+        height: 4rem;
+        padding: 0 3.4rem;
+        border-radius: 5px 0 0 5px;
+        @include glass;
+
+        @media screen and (max-width:860px) {
+            padding: 0 1.3rem;
+            gap: 1.2rem;
+        }
+
+        @media screen and (max-width: 550px) {
+            position: fixed;
+            top: 0rem;
+            bottom: 0;
+            right: 0;
+            @include glass();
+            width: 65%;
+            height: 100vh;
+            display: block;
+            padding: 4.7rem 1.7rem;
+            transition: all ease-in 0.4s;
+        }
+
+        .link{
+            padding: 1.2rem 0rem;
+
+            &:hover{
+                @include link-hover($primary-gray, 2px);
+            }
+        }
+
+        .active{
+            @include link-hover($white, 2.9px);
+        }
+
+        & a{
+            color: $primary-gray;
+            font-family: $font-barlow;
+            font-size: 1rem;
+            font-weight: 400;
+
+            >.number{
+                margin: 0 .4rem;
+                color: $white;
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .hide{
+        transform: translateX(500px);
+    }
+}
+
+.hero-section{
+    padding: 8% 2.5% 1%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+    gap: 6.5rem;
+    place-items: center;
+    text-align: justify;
+
+    @media screen and (max-width: 800px) {
+        grid-template-columns: 1fr;
+        padding: 5% 1% 3%;    
+    }
+
+    .hero-text{
+        width: 88%;
+
+        @media screen and (max-width:  800px) {
+            text-align: center;
+            width: 68%;
+        }
+         
+        @media screen and (max-width: 400px) {
+            &__headings h1{
+                font-size: 4.2rem;
+            }
+        }
+    }
+
+    .explore-circle{
+        $size: clamp(200px, 17rem, 40vw);
+        background-color: $white;
+        height:$size;
+        width: $size;
+        border-radius: 50%;
+        color: $primary-dark;
+        cursor: pointer;
+        @include flex(center, center, 0rem);
+    }
+}
