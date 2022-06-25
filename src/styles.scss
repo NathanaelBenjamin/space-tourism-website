@@ -3,6 +3,7 @@
 //VARIABLES
 $primary-dark: #0B0D17;
 $primary-gray: #D0D6F9;
+
 $font-bellefair: 'Bellefair', serif;
 $font-barlow: 'Barlow Condensed', sans-serif;
 $white: #ffffff;
@@ -12,16 +13,24 @@ $heading-2-size: 100px;
 $heading-3-size: 58px;
 $heading-4-size: 32px;
 $heading-5-size: 28px;
+$pararagh-size: 1.125rem;
+
+$generalpadding: 8% 2.5% 1%;
+$mobile-general-padding: 5% 1% 3%;
+
+$number-opacity: .25;
+$underline: 1px solid #383B4B;
 
 //MIXINS
-@mixin flex ($justify, $align, $gap) {
+@mixin flex ($justify, $align, $gap, $direction: row, $query: 800px) {
     display: flex;
     justify-content: $justify;
     align-items: $align;
     gap: $gap;
+    flex-direction: $direction;
 
-    @media screen and (max-width: 800px) {
-        @if ($justify == 'space-around' or $justify == 'center') {
+    @media screen and (max-width: $query) {
+        @if ($justify == 'space-around' or $justify == 'center' or $justify == 'auto') {
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -29,7 +38,19 @@ $heading-5-size: 28px;
     }
 }
 
-@mixin heading($font-size, $font-family, $font-weight) {
+@mixin grid ($width: 440px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax($width, 1fr));
+    gap: 6.5rem;
+    place-items: center;
+
+    @media screen and (max-width: 800px) {
+        grid-template-columns: 1fr;
+        padding: $mobile-general-padding;    
+    }
+}
+
+@mixin heading($font-size, $font-family: $font-barlow, $font-weight) {
     font-size: $font-size;
     font-family: $font-family;
     font-weight: $font-weight;
@@ -48,6 +69,16 @@ $heading-5-size: 28px;
     border: 1px solid rgba(208, 214, 249, 0.16);
 }
 
+@mixin page-number{
+    display: flex;
+
+    &_number{
+        @include heading(1.75rem, $font-barlow, 400);
+        margin: 0 1rem;
+        opacity: $number-opacity;
+    }
+}
+
 // UTILITIES.
 
 h1{
@@ -56,6 +87,14 @@ h1{
 
     @media screen and (max-width:768px) {
         font-size: 80px;
+    }
+}
+
+h2{
+    @include heading($heading-2-size, $font-bellefair, 400);
+
+    @media screen and (max-width:768px) {
+        font-size: 50px;
     }
 }
 
@@ -68,10 +107,16 @@ h5{
     color: $primary-gray;
 }
 
+h6{
+    @include heading(1rem,  $font-barlow, 400);
+    color: $primary-gray;    
+}
+
 p{
     font-family: $font-barlow;
     font-size: 1.125rem;
     line-height: 2rem;
+    color: $primary-gray;
 }
 
 
@@ -85,15 +130,39 @@ p{
 button{
     cursor: pointer;
     border: 0;
+    margin: 1rem;
+}
+
+.active a, button.active{
+    @include link-hover($white, 2.9px);
+}
+
+a, .number, .destination-btn{
+    color: $primary-gray;
+    font-family: $font-barlow;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    padding: 1.2rem 0rem;
+}
+
+.number{
+    margin: 0 .4rem;
+    color: $white;
+    font-weight: 700;
 }
 
 // ----------------------------------------- //
 
 .container{
-    background-image: url("./Components//background-image.jpg");
     min-height: 100vh;
     width: min(100vw, 100%);
     color: $primary-gray;
+    padding-bottom: 4rem;
+}
+
+.home{
+    background-image: url("./Pages/Components/background-image.jpg");
 }
 
 .navbar{
@@ -105,6 +174,11 @@ button{
         height: 48px;
         width: 48px;
         border-radius: 50%;
+         
+        &:hover{
+            text-decoration: none;
+            border: 0;
+        }
     }
 
     .line{
@@ -193,6 +267,10 @@ button{
         border-radius: 5px 0 0 5px;
         @include glass;
 
+        a:hover{
+            @include link-hover($primary-gray, 2px);
+        }
+
         @media screen and (max-width:860px) {
             padding: 0 1.3rem;
             gap: 1.2rem;
@@ -206,34 +284,10 @@ button{
             @include glass();
             width: 65%;
             height: 100vh;
-            display: block;
-            padding: 4.7rem 1.7rem;
+            @include flex(flex-start, flex-start, 3.5rem);
+            flex-direction: column;
+            padding: 4.7rem 2.3rem;
             transition: all ease-in 0.4s;
-        }
-
-        .link{
-            padding: 1.2rem 0rem;
-
-            &:hover{
-                @include link-hover($primary-gray, 2px);
-            }
-        }
-
-        .active{
-            @include link-hover($white, 2.9px);
-        }
-
-        & a{
-            color: $primary-gray;
-            font-family: $font-barlow;
-            font-size: 1rem;
-            font-weight: 400;
-
-            >.number{
-                margin: 0 .4rem;
-                color: $white;
-                font-weight: 700;
-            }
         }
     }
 }
@@ -245,37 +299,22 @@ button{
 }
 
 .hero-section{
-    padding: 8% 2.5% 1%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
-    gap: 6.5rem;
-    place-items: center;
+    padding: $generalpadding;
+    @include grid();
     text-align: justify;
 
-    @media screen and (max-width: 800px) {
-        grid-template-columns: 1fr;
-        padding: 5% 1% 3%;    
+    @media screen and (max-width:  1024px) {
+        text-align: center;
     }
 
     .hero-text{
-        width: 88%;
-
-        @media screen and (max-width:  800px) {
-            text-align: center;
-            width: 68%;
-        }
-         
-        @media screen and (max-width: 400px) {
-            &__headings h1{
-                font-size: 4.2rem;
-            }
-        }
+        width: 75%;
     }
 
     .explore-circle{
         $size: clamp(200px, 17rem, 40vw);
         background-color: $white;
-        height:$size;
+        height: $size;
         width: $size;
         border-radius: 50%;
         color: $primary-dark;
@@ -283,3 +322,64 @@ button{
         @include flex(center, center, 0rem);
     }
 }
+
+// ----------------- DESTINATIONS PAGE ---------------
+
+.dark-bg{
+    background-color: $primary-dark;
+}
+
+.destination{
+    margin: 2.2rem 0 0;
+    @include flex(space-around, center, 2rem, $query: 920px);
+    //@include grid();
+
+    .image{
+        display: grid;
+        align-self: flex-start;
+
+        @media screen and (max-width: 920px) {
+            align-self: center;
+        }
+        
+        &_header{
+            @include page-number();
+        }
+    }
+
+    &_text{
+        width: 40%;
+        margin: 3rem 0 0;
+        @include flex(auto, auto, 1.7rem, column);
+
+        @media screen and (max-width: 920px) {
+            width: 80%;
+            text-align: center;
+        }
+    }
+
+    &-btn{
+        background: transparent;
+        padding:  .4rem 0;
+
+        &:hover{
+            @include link-hover($primary-gray, 2px);
+        }
+    }
+
+    &-details{
+        padding: 1rem 0 2rem;
+        border-bottom: $underline;
+    }
+
+    &-subheadings{
+        @include flex(auto, auto, 4.2rem);
+
+        h5{
+            margin: .9rem 0 0;
+            font-family: $font-bellefair;
+        }
+    }
+}
+
+

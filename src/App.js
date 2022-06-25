@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./Pages/Home";
-import Destination from "./Pages/Destination";
-import Crew from "./Pages/Crew";
-import Technology from "./Pages/Technology";
+import Home from "./Pages/HOME/Home";
+import Destination from "./Pages/DESTINATIONS/Destination";
+import Crew from "./Pages/CREW/Crew";
+import Technology from "./Pages/TECHNOLOGY/Technology";
 
 const App = () => {
   return (

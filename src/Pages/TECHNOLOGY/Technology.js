@@ -1,10 +1,10 @@
 import React from 'react';
-import "./styles.scss";
-import Navbar from "./Components/Navbar";
+import "../../styles.scss";
+import Navbar from "../Components/Navbar";
 
 const Technology = () => {
   return (
-    <div className="container">
+    <div className='container'>
       <Navbar active={'technology'}/>
       Technology
     </div>

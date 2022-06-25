@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles.scss";
+import "../../styles.scss";
 import { Link } from "react-router-dom";
 import logo from "./Group 2.svg";
 import Rectangle from "./Rectangle.svg";

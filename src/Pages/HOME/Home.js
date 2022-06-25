@@ -1,12 +1,12 @@
 import React from 'react';
-import "./styles.scss";
-import Navbar from './Components/Navbar';
+import "../../styles.scss";
+import Navbar from "../Components/Navbar";
 import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className='container'>
-      <Navbar active={'home'}/>
+    <div className='container home'>
+      <Navbar active={'home'} />
 
       <div className="hero-section">
         <div className="hero-text">

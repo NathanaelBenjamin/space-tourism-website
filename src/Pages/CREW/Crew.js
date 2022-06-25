@@ -1,10 +1,10 @@
 import React from 'react';
-import "./styles.scss";
-import Navbar from './Components/Navbar';
+import "../../styles.scss";
+import Navbar from "../Components/Navbar";
 
 const Crew = () => {
   return (
-    <div className="container">
+    <div className='container'>
       <Navbar active={'crew'}/>
       Crew
     </div>
