@@ -19,7 +19,7 @@ const Crew = () => {
             <h5>MEET YOUR CREW</h5>
         </div>
 
-        <Carousel showArrows={true} autoPlay={true} infiniteLoop={true} centerMode={false} interval={5000} swipeable={false}>
+        <Carousel showArrows={true} autoPlay={true} infiniteLoop={true} centerMode={false} interval={7000} swipeable={false} stopOnHover={false}>
           {
             members.map(person => {
               return <MemberImage 
