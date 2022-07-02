@@ -99,6 +99,7 @@ $underline: 1px solid #383B4B;
     background-position: center;
     background-repeat: no-repeat;
     background-color: $primary-dark;
+    background-attachment: fixed;
 }
 
 //EXTENSIONS 
@@ -365,18 +366,19 @@ a, .number, .destination-btn{
         background-color: $white;
         height: $size;
         width: $size;
-        border-radius: 50%;
+        border-radius: 100%;
         color: $primary-dark;
         cursor: pointer;
         @include flex(center, center, 0rem);
-        transition: outline ease-in 0.4s;
+        position: relative;
+        transition: all ease-in 0.5s;
 
         @media screen and (max-width:990px) {
             margin: 2rem 0 0;
         }        
 
         &:hover{
-            outline: 3.4rem solid #383B4B;
+            box-shadow: 0px 0px 40px 25px #383B4B;
         }
     }
 }
