@@ -572,7 +572,7 @@ a, .number, .destination-btn{
                     width: $size;
                     height: $size;
                     border-radius: 50%;
-                    outline: 1px solid $primary-grey;
+                    border: 1px solid $primary-grey;
                     cursor: pointer;
                     text-align: center;
                     color: $white;
@@ -580,7 +580,7 @@ a, .number, .destination-btn{
                     transition: all ease-in 0.4s;
 
                     &:hover{
-                        outline: 1px solid $white;
+                        border: 1px solid $white;
                         background: transparent;
                     }
 
