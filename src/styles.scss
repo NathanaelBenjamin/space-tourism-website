@@ -15,13 +15,21 @@ $heading-4-size: 32px;
 $heading-5-size: 28px;
 $pararagh-size: 1.125rem;
 
-$generalpadding: 8% 2.5% 1%;
-$mobile-general-padding: 5% 7% 1.5%;
+$generalpadding: 6.8% 3.5% 1%;
+$mobile-general-padding: 5% 3.4% 1.5%;
 
 $number-opacity: .25;
 $underline: 1px solid #383B4B;
 
 //MIXINS
+@mixin general-padding {
+    padding: $generalpadding;
+
+    @media screen and (max-width: 900px) {
+        padding: $mobile-general-padding;
+    }
+}
+
 @mixin flex ($justify, $align, $gap, $direction: row, $query: 800px) {
     display: flex;
     justify-content: $justify;
@@ -44,9 +52,10 @@ $underline: 1px solid #383B4B;
     gap: 2rem;
     place-items: center;
 
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 980px) {
+        padding: $mobile-general-padding; 
         grid-template-columns: 1fr;
-        padding: $mobile-general-padding;    
+        //text-align: center; 
     }
 }
 
@@ -85,6 +94,13 @@ $underline: 1px solid #383B4B;
     }
 }
 
+@mixin background {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: $primary-dark;
+}
+
 //EXTENSIONS 
 
 .glass{
@@ -114,13 +130,18 @@ h2{
 h3{
     @include heading($heading-3-size, $font-bellefair, 400);
 
-    @media screen and (max-width: 400px) {
-        font-size: 40px;
+    @media screen and (max-width: 600px) {
+        font-size: 2.4rem;
+        text-align: center;
+        width: 100%;
     }
 }
 
 h4{
     @include heading(2rem, $font-bellefair, 400);
+    @media screen and (max-width: 600px) {
+        font-size: 1.3rem;
+    }
 }
 
 h5{
@@ -139,6 +160,10 @@ p{
     font-size: 1.125rem;
     line-height: 2rem;
     color: $primary-gray;
+
+    @media screen and (max-width: 400px) {
+        text-align: center;
+    }
 }
 
 
@@ -181,13 +206,11 @@ a, .number, .destination-btn{
     width: clamp(266px, 100%, 100vw);
     color: $primary-gray;
     padding-bottom: 3rem;
+    @include background();
 }
 
 .home{
-    background-image: url("./Pages/Components/background-image.jpg");
-    background-color: $primary-dark;
-    background-size: cover;
-    background-position: center;
+    background-image: url("./Pages/HOME/background-image.jpg");
 }
 
 .navbar{
@@ -222,7 +245,7 @@ a, .number, .destination-btn{
         position: absolute;
         right: 1.5rem;
         top: 3rem;
-        z-index: 30;
+        z-index: 40;
 
         @media screen and (min-width: 550px) {
             display: none;
@@ -306,6 +329,7 @@ a, .number, .destination-btn{
             top: 0rem;
             bottom: 0;
             right: 0;
+            z-index: 30;
             @extend .glass;
             width: 65%;
             height: 100vh;
@@ -337,7 +361,7 @@ a, .number, .destination-btn{
     }
 
     .explore-circle{
-        $size: clamp(200px, 17rem, 40vw);
+        $size: clamp(200px, 15rem, 40vw);
         background-color: $white;
         height: $size;
         width: $size;
@@ -345,6 +369,15 @@ a, .number, .destination-btn{
         color: $primary-dark;
         cursor: pointer;
         @include flex(center, center, 0rem);
+        transition: outline ease-in 0.4s;
+
+        @media screen and (max-width:990px) {
+            margin: 2rem 0 0;
+        }        
+
+        &:hover{
+            outline: 3.4rem solid #383B4B;
+        }
     }
 }
 
@@ -355,12 +388,11 @@ a, .number, .destination-btn{
 }
 
 .destination{
-    padding: $generalpadding;
+    @include general-padding();
     margin: 2.2rem 0 0;
     @include flex(space-around, center, .2rem, $query: 920px);
     
     @media screen and (max-width: 920px) {
-        padding: $mobile-general-padding;
         gap: 2rem;
     }
 
@@ -427,42 +459,170 @@ a, .number, .destination-btn{
 
 // ----------------- CREW PAGE ---------------
 .crew{
-    background-image: url("./Pages/Components//crew-bg.png");
-    background-color: $primary-dark;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-image: url("./Pages/CREW/crew-bg.png");
+    
 
     &-member{
-        padding: 0 2rem;
+        @include general-padding();
+        @include flex(center, center, 4rem, column);
+
         &_header{
             @include page-number();
+            align-self: flex-start;
         }
 
-        @include grid();
-        justify-content: space-around;
-        align-items: center;
+        &_description{
+            @include grid(3rem);
+            
 
-        &-text{
-            @include flex(center, flex-start, 7.2rem, column);
+            &_text{
+                @include flex(center, flex-start, 1rem, column);
+                text-align: justify;
+                h3, h4{
+                    text-transform: uppercase;
+                }
+                
+                @media screen and (max-width:950px) {
+                    align-items: center;
+                    text-align: center;
+                }
 
-            &_description{
-                @include flex(space-around, auto, 1rem, column);
+                p{
+                    margin: 0 0 3rem;
+                }
             }
-        }
 
-        &_image{
-            width: 70%;
-            //aspect-ratio: 1/1;
-            position: relative;
+            &_image{
+                padding: 1rem 0 3.5rem;
+                width: 70%;
+                margin-top: -1rem;
 
-            img{
-                width: 100%;
+                img{
+                    width: clamp(222px, 25%, 300px);
+                    aspect-ratio: 14/16;
+                }
+
+                @media screen and (max-width: 768px) {
+                    order: -1;
+                    width: 100%;
+
+                    img{
+                        aspect-ratio: 1;
+                        border-bottom: $underline;
+                    }
+                }
             }
         }
     }
 }
 
+.carousel{
+
+    &-root{
+        width: 100%;
+    }
+
+    &-status{
+        display: none;
+    }
+
+    img{
+        border-bottom: $underline;
+    }
+}
+
+// ====================== TECHNOLOGY PAGE =============
+.technology{
+    background-image: url("./Pages/TECHNOLOGY/Technology-page-bg.png");
+    background-color: $primary-dark;
+
+    &-info{
+        $major-breakpoint: 920px;
+        padding: 2rem 0;
+
+        @include flex(space-around, auto, 4rem, column);
+
+        &_header{
+            @include page-number();
+        }
+
+        &_devices{
+            @include flex(space-between, center, 2rem );
+            
+            @media screen and (max-width: $major-breakpoint) {
+                flex-direction: column;
+                gap: 3.45rem;
+            }
+
+            &_number{
+
+                padding: 0 0 0 3rem;
+                @include flex(space-between, flex-start, 1.5rem, column);
+
+                @media screen and (max-width: $major-breakpoint) {
+                    flex-direction: row;
+                    order: 2;
+                    padding: 1rem 2rem;
+                }
+
+                &>div.circle{
+                    $primary-grey: #383B4B;
+                    $size: 4rem;
+                    background: transparent;
+                    width: $size;
+                    height: $size;
+                    border-radius: 50%;
+                    outline: 1px solid $primary-grey;
+                    cursor: pointer;
+                    text-align: center;
+                    color: $white;
+                    @include flex(center, center, auto);
+                    transition: all ease-in 0.4s;
+
+                    &:hover{
+                        outline: 1px solid $white;
+                        background: transparent;
+                    }
+
+                    &.circle-active{
+                        background-color: #ffffff;
+                        color: #383B4B;
+                    }
+                }
+            }
+
+            &_description{
+                width: clamp(270px, 40%, 700px);
+                @include flex(space-between, flex-start, 1rem, column);
+
+                @media screen and (max-width: $major-breakpoint) {
+                    width: 100%;
+                    align-items: center;
+                    text-align: center;
+                    order: 3;
+                    padding: 2rem;
+                }
+            }
+
+            &_image{
+                width: 30%;
+                img{
+                    width: 100%;
+                }
+
+                @media screen and (max-width: $major-breakpoint) {
+                    order: 1;
+                    width: 100%;
+                    
+                    img{
+                        height: 310px;
+                    }
+                }
+            }
+        }
+
+    }
+}
 
 
 

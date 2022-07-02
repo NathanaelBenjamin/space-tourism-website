@@ -1,33 +1,36 @@
 import React from 'react';
 import "../../styles.scss";
 import Navbar from "../Components/Navbar";
-import douglas from "../Components/douglas-hurley.png";
+import MemberImage from './MemberImage';
+import members from './crewMembers';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
 
 const Crew = () => {
   return (
     <div className='container crew'>
-      <Navbar active={'crew'}/>
+      <Navbar active={'crew'} />
+
       <div className="crew-member">
-        <div className="crew-member-text">
-          <div className="crew-member_header">
+        <div className="crew-member_header">
             <span className="crew-member_header_number">
               02
             </span>
             <h5>MEET YOUR CREW</h5>
-          </div>
-
-          <div className="crew-member-text_description">
-            <h4>COMMANDER</h4>
-            <h3>DOUGLAS HURLEY</h3>
-            <p>
-            Douglas Gerald Hurley is an American engineer, former Marine Corps pilot and former NASA astronaut. He launched into space for the third time as commander of Crew Dragon Demo-2.
-            </p>
-          </div>
         </div>
 
-        <div className="crew-member_image">
-          <img src={douglas} alt="" />
-        </div>
+        <Carousel showArrows={false} autoPlay={true} infiniteLoop={true} centerMode={false} interval={5000}>
+          {
+            members.map(person => {
+              return <MemberImage 
+                name={person.name}
+                position={person.position}
+                description={person.description}
+                image={person.image}
+              />
+            })
+          }
+        </Carousel>
       </div>
     </div>
   )

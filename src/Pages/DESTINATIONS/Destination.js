@@ -1,37 +1,13 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState } from 'react';
 import "../../styles.scss";
 import Navbar from "../Components/Navbar";
 import destinations from "./destinationData";
-import moonImage from "../Components/Moon.jpg";
-import marsImage from "../Components/Mars.jpg";
-import europaImage from "../Components/europa.jpg";
-import titansImage from "../Components/titans.jpg";
 
 const { moon, mars, europa, titans } = destinations; 
 
 const Destination = () => {
 
   const [destination, setDestination] = useState(moon);
-
- const image = useRef(moon);
-
-  useEffect(() => {
-    if(destination.place === "MOON"){
-      image.current.src = moonImage;
-    }
-
-    else if(destination.place === "EUROPA"){
-      image.current.src = europaImage; 
-    }
-
-    else if(destination.place === "TITANS"){
-      image.current.src = titansImage;
-    }
-
-    else if(destination.place === "MARS"){
-      image.current.src = marsImage;
-    }
-  }, [destination]);
 
   return (
     <div className='dark-bg container'>
@@ -45,7 +21,7 @@ const Destination = () => {
           </div>
 
           <div className="image_image">
-            <img src='' ref={image} alt="" />
+            <img src={destination.image}  alt="" />
           </div>
         </div>
 
